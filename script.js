@@ -1,21 +1,31 @@
 let display = document.getElementById("display");
 
 function appendValue(value) {
-    display.value += value;
+    if (display.value === "0") {
+        display.value = value;
+    } else {
+        display.value += value;
+    }
 }
 
 function clearDisplay() {
-    display.value = "";
+    display.value = "0";
 }
 
 function deleteLast() {
-    display.value = display.value.slice(0, -1);
+    if (display.value.length > 1) {
+        display.value = display.value.slice(0, -1);
+    } else {
+        display.value = "0";
+    }
 }
 
 function calculate() {
+
     let expression = display.value;
 
     try {
+
         let operator = "";
 
         if (expression.includes("+")) {
@@ -43,32 +53,40 @@ function calculate() {
         let firstNumber = parseFloat(numbers[0]);
         let secondNumber = parseFloat(numbers[1]);
 
+        if (isNaN(firstNumber) || isNaN(secondNumber)) {
+            display.value = "Error";
+            return;
+        }
+
         let result;
 
-        if (operator === "+") {
-            result = firstNumber + secondNumber;
-        }
+        switch (operator) {
 
-        else if (operator === "-") {
-            result = firstNumber - secondNumber;
-        }
+            case "+":
+                result = firstNumber + secondNumber;
+                break;
 
-        else if (operator === "*") {
-            result = firstNumber * secondNumber;
-        }
+            case "-":
+                result = firstNumber - secondNumber;
+                break;
 
-        else if (operator === "/") {
+            case "*":
+                result = firstNumber * secondNumber;
+                break;
 
-            if (secondNumber === 0) {
-                display.value = "Error";
-                return;
-            }
+            case "/":
 
-            result = firstNumber / secondNumber;
-        }
+                if (secondNumber === 0) {
+                    display.value = "Error";
+                    return;
+                }
 
-        else if (operator === "%") {
-            result = firstNumber % secondNumber;
+                result = firstNumber / secondNumber;
+                break;
+
+            case "%":
+                result = firstNumber % secondNumber;
+                break;
         }
 
         display.value = result;
@@ -77,7 +95,6 @@ function calculate() {
         display.value = "Error";
     }
 }
-
 
 /* Keyboard support */
 
@@ -97,7 +114,11 @@ document.addEventListener("keydown", function(event) {
         appendValue(event.key);
     }
 
-    else if (event.key === "Enter") {
+    else if (event.key === ".") {
+        appendValue(".");
+    }
+
+    else if (event.key === "Enter" || event.key === "=") {
         calculate();
     }
 
