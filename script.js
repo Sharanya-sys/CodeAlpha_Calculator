@@ -16,18 +16,21 @@ function calculate() {
     let expression = display.value;
 
     try {
-        // Find the operator
         let operator = "";
 
         if (expression.includes("+")) {
             operator = "+";
-        } else if (expression.includes("-")) {
+        } 
+        else if (expression.includes("-")) {
             operator = "-";
-        } else if (expression.includes("*")) {
+        } 
+        else if (expression.includes("*")) {
             operator = "*";
-        } else if (expression.includes("/")) {
+        } 
+        else if (expression.includes("/")) {
             operator = "/";
-        } else if (expression.includes("%")) {
+        } 
+        else if (expression.includes("%")) {
             operator = "%";
         }
 
@@ -35,7 +38,6 @@ function calculate() {
             return;
         }
 
-        // Split the two numbers
         let numbers = expression.split(operator);
 
         let firstNumber = parseFloat(numbers[0]);
@@ -56,6 +58,7 @@ function calculate() {
         }
 
         else if (operator === "/") {
+
             if (secondNumber === 0) {
                 display.value = "Error";
                 return;
@@ -76,7 +79,7 @@ function calculate() {
 }
 
 
-// Keyboard support
+/* Keyboard support */
 
 document.addEventListener("keydown", function(event) {
 
